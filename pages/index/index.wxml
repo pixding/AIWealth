@@ -1,0 +1,14 @@
+<view class="section">
+  
+  <view class="photo-area">
+    <view class="photo-content"></view>
+  </view>
+
+  <view class="btn-area">
+    <a  class="cal-btn" bindtap="choseMyface">选择照片</a>
+  </view>
+
+  <view>
+    {{xxx}} {{data.error_msg}}  21212
+  </view>
+</view>
