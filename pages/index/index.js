@@ -1,41 +1,59 @@
 const  app = getApp();
-
 Page({
   data: {
-    text: "首页",
-    data: null
+    imgObj:null,
   },
-  onLoad:function(options){
+  uploadMyface:function(){
+    var self = this;
+    wx.showLoading({
+        title: '正在计算...',
+        mask: true
+    });
+    wx.uploadFile({
+      url: 'http://192.168.1.101:3000/upload', //仅为示例，非真实的接口地址
+      filePath: self.data.imgObj.path,
+      name: 'thumbnail',
+      success: function(res){
+        wx.hideLoading();
+        var data = res.data;
+        console.log(data);
+        
+      }
+    })
+  },
+  resetMyface:function(){
     this.setData({
-      location:app.globalData.location,
-      age:app.globalData.age,
-      xxx:"123456"
+      imgObj:null
     })
   },
   choseMyface: function(event) {
     var self = this;
     wx.chooseImage({
       success: function(res) {
-        var tempFilePaths = res.tempFilePaths;
-        wx.showLoading({
-            title: '照片正在上传',
-            mask: true
-        });
-        wx.uploadFile({
-          url: 'http://192.168.2.21:3000/upload', //仅为示例，非真实的接口地址
-          filePath: tempFilePaths[0],
-          name: 'thumbnail',
-          success: function(res){
-            wx.hideLoading();
-            var data = res.data;
-            console.log(data);
+        let imgPath = res.tempFilePaths[0];
+        wx.getImageInfo({
+          src:imgPath,
+          success:function(res){
+            var imgObj = {
+              path:imgPath,
+              width:res.width,
+              height:res.height
+            }
             self.setData({
-              data:data
+              imgObj:imgObj
             })
           }
         })
+        self.setData({
+          imgPath:res.tempFilePaths[0]
+        })
+        
       }
     })
+  },
+  uploadPhoto:function(event){
+    var self = this;
+
   }
 });
 

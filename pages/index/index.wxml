@@ -1,14 +1,17 @@
 <view class="section">
   
   <view class="photo-area">
-    <view class="photo-content"></view>
+    <view class="photo-content">
+      <image wx:if="{{imgObj}}" 
+        mode="widthFix"
+        style="width:200px;" src="{{imgObj.path}}"></image>
+      <icon wx:if="{{imgObj}}" bindtap="resetMyface" class="photo-cancel" type="cancel" size="{{30}}"/>
+
+    </view>
   </view>
 
   <view class="btn-area">
-    <a  class="cal-btn" bindtap="choseMyface">选择照片</a>
-  </view>
-
-  <view>
-    {{xxx}} {{data.error_msg}}  21212
+    <a wx:if="{{imgObj}}"  class="cal-btn" bindtap="uploadMyface">测算财运</a>
+    <a wx:else  class="cal-btn" bindtap="choseMyface">选择照片/拍照</a>
   </view>
 </view>
