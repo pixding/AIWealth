@@ -10,14 +10,23 @@ Page({
         mask: true
     });
     wx.uploadFile({
-      url: 'http://192.168.1.101:3000/upload', //仅为示例，非真实的接口地址
+      url: 'https://contest.lujs.cn/h5-list/upload', //仅为示例，非真实的接口地址
       filePath: self.data.imgObj.path,
       name: 'thumbnail',
       success: function(res){
         wx.hideLoading();
-        var data = res.data;
-        console.log(data);
-        
+        let data = JSON.parse(res.data);
+        if(data.error_code == "0"){
+          console.log(data);
+        }else{
+          if(data.error_code == "222202"){
+            wx.showToast({title:"未找到人脸",icon:"none"});
+          }else{
+
+            wx.showToast({title:data.error_msg,icon:"none"});
+          }
+          
+        } 
       }
     })
   },
