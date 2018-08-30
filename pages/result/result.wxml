@@ -1,0 +1,40 @@
+<view class="section">
+  <view class="result-area">
+    <view class="result-header">
+      <image
+        mode="aspectFit" bindload="imageLoad"
+       src="{{imgObj.path}}"></image>
+      <view wx:if="{{mask}}" class="result-faceout">
+        <view style="background:#fff; opacity:0.3; position:absolute; left:{{mask.rLeft}}px; top:{{mask.rTop}}px; width:{{mask.rW}}px; height:{{mask.rH}}px;"></view>
+      </view>
+      <canvas style="position:absolute; left:0; top:0; width:100%;height:270px;" canvas-id="facecanvas"></canvas>
+    </view>
+    <view wx:if="{{faceRes}}">
+      <view class="result-word">
+        脸型特征：{{faceRes.sex}}，{{faceRes.age}}岁，{{faceRes.facetype}}，{{faceRes.glasses}}，{{faceRes.mile}}。
+      </view>
+      <view class="result-rec">
+        <view class="result-rec-title">
+          <span>理财推荐</span>
+        </view>
+        <view class="result-rec-con">
+          你财运亨通，近期运势不错。推荐投资陆金所理财产品：
+          <view class="result-rec-prod">
+            <span class="lab">爱理财5号  </span>
+            <span class="con">年化收益率高达7%，随时赎回</span>
+            
+          </view>
+          <view class="result-rec-er">
+            <image style="width:86px; height:86px;" src="../../images/er.jpg"></image>
+            <view>长按测测我的财运</view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="result-btn">
+      <button class="saveimg">保存图片</button>
+      <button class="reglufax">注册陆金所</button>
+    </view>
+  </view>
+  
+</view>

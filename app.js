@@ -1,28 +1,6 @@
 App({
   onLaunch: function () {
     var that = this;
-    // 展示本地存储能力
-    var logs = wx.getStorageSync('logs') || []
-    logs.unshift(Date.now())
-    wx.setStorageSync('logs', logs)
-
-    // 登录
-    wx.login({
-      success: res => {
-        // 发送 res.code 到后台换取 openId, sessionKey, unionId
-      }
-    })
-
-    wx.getLocation({
-      type: 'wgs84',
-      success: (res) => {
-        var latitude = res.latitude // 经度
-        var longitude = res.longitude // 纬度
-        console.log(res,"...");
-        that.globalData.location = {latitude,longitude};
-        console.log(that.globalData,"..sdaf");
-      }
-    })
     // 获取用户信息
     wx.getSetting({
       success: res => {
@@ -46,7 +24,7 @@ App({
   },
   globalData: {
     userInfo: null,
-    location:null,
-    age:100,
+    faceRes:null,
+    imgObj:null
   }
 })

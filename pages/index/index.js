@@ -3,6 +3,8 @@ Page({
   data: {
     imgObj:null,
   },
+  
+
   uploadMyface:function(){
     var self = this;
     wx.showLoading({
@@ -10,21 +12,30 @@ Page({
         mask: true
     });
     wx.uploadFile({
-      url: 'https://contest.lujs.cn/h5-list/upload', //仅为示例，非真实的接口地址
+      url: 'https://contest.lujs.cn/h5-mission/wx/upload', 
       filePath: self.data.imgObj.path,
       name: 'thumbnail',
       success: function(res){
         wx.hideLoading();
         let data = JSON.parse(res.data);
         if(data.error_code == "0"){
-          console.log(data);
+          app.globalData.faceRes = data.result.face_list[0];
+          wx.navigateTo({
+            url: '/pages/result/result'
+          })
         }else{
-          if(data.error_code == "222202"){
-            wx.showToast({title:"未找到人脸",icon:"none"});
+          if(data.code=="ESOCKETTIMEDOUT"){
+            wx.showToast({title:"您的网络异常",icon:"none"});
           }else{
+            if(data.error_code == "222202"){
+              wx.showToast({title:"未找到人脸",icon:"none"});
+            }else{
+  
+              wx.showToast({title:data.error_msg,icon:"none"});
+            }
 
-            wx.showToast({title:data.error_msg,icon:"none"});
           }
+          
           
         } 
       }
@@ -48,15 +59,12 @@ Page({
               width:res.width,
               height:res.height
             }
+            app.globalData.imgObj = imgObj;
             self.setData({
               imgObj:imgObj
             })
           }
         })
-        self.setData({
-          imgPath:res.tempFilePaths[0]
-        })
-        
       }
     })
   },

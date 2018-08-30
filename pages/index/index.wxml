@@ -1,10 +1,16 @@
 <view class="section">
-  
+  <view class="tip-area">
+    <view>面相看财运</view>
+    <view>什么面相的人财运好</view>
+    <view>小 “I” 帮你测算分析</view>
+  </view>
+
+
   <view class="photo-area">
-    <view class="photo-content">
+    <view class="photo-content {{imgObj?'noshow':''}}">
       <image wx:if="{{imgObj}}" 
         mode="widthFix"
-        style="width:200px;" src="{{imgObj.path}}"></image>
+        style="width:240px; display:block;" src="{{imgObj.path}}"></image>
       <icon wx:if="{{imgObj}}" bindtap="resetMyface" class="photo-cancel" type="cancel" size="{{30}}"/>
 
     </view>
