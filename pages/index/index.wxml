@@ -6,11 +6,11 @@
   </view>
 
 
-  <view class="photo-area">
+  <view class="photo-area" >
     <view class="photo-content {{imgObj?'noshow':''}}">
       <image wx:if="{{imgObj}}" 
         mode="widthFix"
-        style="width:240px; display:block;" src="{{imgObj.path}}"></image>
+        style="width:240px; display:block; " src="{{imgObj.path}}"></image>
       <icon wx:if="{{imgObj}}" bindtap="resetMyface" class="photo-cancel" type="cancel" size="{{30}}"/>
 
     </view>
@@ -20,4 +20,8 @@
     <a wx:if="{{imgObj}}"  class="cal-btn" bindtap="uploadMyface">测算财运</a>
     <a wx:else  class="cal-btn" bindtap="choseMyface">选择照片/拍照</a>
   </view>
+
+  
+
+
 </view>

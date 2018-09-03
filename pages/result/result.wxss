@@ -40,19 +40,27 @@
   line-height:38px;
 }
 .result-rec-con{
-  padding:15px 10px;
+  padding:15px 10px 60px 10px;
   font-size:14px;
   line-height: 28px;
+  position:relative;
+  
+}
+.result-rec-er{
+  position: absolute;
+  right:15px; bottom:15px;
 }
 .result-rec-con .str{
   color:#f60;
 }
 .result-rec-prod{
-  font-size:14px;
+  font-size:13px;
+  line-height: 26px;
 }
 .result-rec-prod .lab{
   font-weight: bold;
-  color:#f60;
+  font-size: 16px;
+  color:#f00;
 }
 .result-rec-prod .con{
   color:#666;
@@ -84,4 +92,14 @@
 .result-rec-er{
   text-align: right;
   margin-top:10px;
+}
+
+.btn-thumb{
+  position: absolute;
+  top:-1000px;
+  left:-1000px;
+  width:345px;
+  height: 800px;
+  background: #fff;
+  
 }
