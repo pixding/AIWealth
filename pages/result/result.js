@@ -24,7 +24,7 @@ let yunsi = [
   },
   {
     word:[
-      "您时来运转","财力有进有退，转型改造财运改善。"
+      "您时来运转","财力有进有退，财运有所改善。"
     ]
   },
   {
@@ -55,10 +55,8 @@ let rcmdProd = [
 
 Page({
   data: {
-    imgObj:null,
-    faceRes:null,
-    mask:null,
-    scroeObj:null,
+    width:null,
+    height:null,
   },
   getScore:function(){
     let faceRes = getApp().globalData.faceRes;
@@ -84,89 +82,38 @@ Page({
       pword:rcmdProd[pindex]
     }
   },
-  imageLoad:function(e){
+  onShareAppMessage:function(){
     var that = this;
-    var imgObj = that.data.imgObj;
-    var w = e.detail.width;
-    var h = e.detail.height;
-    wx.getSystemInfo({
-      success: function(res) {
-        let scroeObj = that.getScore();
-        let realW = res.windowWidth-30;
-        let realH = 240;
-        let location = getApp().globalData.faceRes.location;
-        let rate = Math.max(w/realW,h/realH); //缩放比例，取大的
-        
-        let rTop = ((realH*rate-h)/2+location.top)/rate;
-        let rLeft = ((realW*rate-w)/2+location.left)/rate;
-        let rW = location.width/rate;
-        let rH= location.height/rate;
-        let mask = {
-          rTop,
-          rLeft,
-          rW,
-          rH
-        }
-        that.setData({
-          mask
-        })
-
-        var context = wx.createCanvasContext('facecanvas')
-        var borderWidth = 14;
-        var lW = 3;
-        context.setStrokeStyle("#fff")
-        context.setLineWidth(lW)
-        context.moveTo(rLeft-lW+borderWidth,rTop-lW);
-        context.lineTo(rLeft-lW,rTop-lW);
-        context.lineTo(rLeft-lW,rTop-lW+borderWidth);
-
-        context.moveTo(rLeft+rW+lW-borderWidth,rTop-lW);
-        context.lineTo(rLeft+rW+lW,rTop-lW);
-        context.lineTo(rLeft+rW+lW,rTop-lW+borderWidth);
-
-        context.moveTo(rLeft-lW,rTop+rH+lW-borderWidth);
-        context.lineTo(rLeft-lW,rTop+rH+lW);
-        context.lineTo(rLeft-lW+borderWidth,rTop+rH+lW);
-
-        context.moveTo(rLeft+rW+lW-borderWidth,rTop+rH+lW);
-        context.lineTo(rLeft+rW+lW,rTop+rH+lW);
-        context.lineTo(rLeft+rW+lW,rTop+rH+lW-borderWidth);
-
-        context.stroke()
-
-        context.font="18px Georgia";
-        context.fillStyle = '#fff';
-        context.textAlign = 'center';
-        context.shadowColor = '#000';
-        context.shadowOffsetX = 2;
-        context.shadowOffsetY = 2;
-        context.shadowBlur = 2;
-        context.fillText("颜值："+scroeObj.yz.toFixed(2)+"分，财运："+scroeObj.cy.toFixed(2)+"分",realW/2,263);
-
-        context.draw();
-      }
-    });
-
-
-  },
-  computeImg:function(){
-
+    return {
+      title:"预测我"+getApp().globalData.faceRes.age+"岁,颜值"+that.getScore().yz.toFixed(2)+"分，我的财运"+that.getScore().cy.toFixed(2)+"分，你来试试？",
+      path:"pages/index/index"
+    }
   },
   onLoad:function(){
-    
-    let faceRes = getApp().globalData.faceRes;
-    let faceObj = {
-      age:faceRes.age,
-      sex:faceRes.gender.type==="female"?"女":"男",
-      mile:miletype[faceRes.expression.type].title,
-      facetype:facetype[faceRes.face_shape.type].title,
-      glasses:glasses[faceRes.glasses.type].title,
-    }
-    let scroeObj = this.getScore();
-    this.setData({
-      imgObj:getApp().globalData.imgObj,
-      faceRes:faceObj,
-      scroeObj:scroeObj,
+    var that = this;
+    wx.getSystemInfo({
+      success: function(res) {
+        let screenW = res.windowWidth;
+        let screenH = res.windowHeight;
+        let canvasHeight = 46+30+240+370;
+        that.setData({
+          width:screenW,
+          height:canvasHeight
+        },function(){
+          that.drawimg();
+        })
+
+      }
+    });
+  },
+  register:function(){
+    wx.showModal({
+      content: '演示小程序，请打开www.lu.com注册',
+      showCancel: false,
+      confirmText: '确定',
+      confirmColor: '#72B9C3',
+      success: function (res) {
+      }
     })
   },
   save:function(){
@@ -180,7 +127,6 @@ Page({
               that.savaImageToPhoto();
             },
             fail() {//这里是用户拒绝授权后的回调
-              console.log("fail");
             }
           })
         }else{//用户已经授权过了
@@ -192,13 +138,12 @@ Page({
   },
 
   savaImageToPhoto:function(){
-    this.drawimg();
-
+    var that = this;
     wx.canvasToTempFilePath({
       x: 0,
       y: 0,
-      destWidth: 690,
-      destHeight: 800*2,
+      destWidth: that.data.width*2,
+      destHeight: that.data.height*2,
       canvasId: 'thumbphoto',
       success: function(res) {
         wx.saveImageToPhotosAlbum({
@@ -210,7 +155,6 @@ Page({
               confirmText: '确定',
               confirmColor: '#72B9C3',
               success: function (res) {
-                console.log(123);
               }
             })
           }
@@ -222,24 +166,25 @@ Page({
     var that = this;
     wx.getSystemInfo({
       success: function(res) {
-        let screenW = res.windowWidth-30;
+        let screenW = res.windowWidth;
         let scroeObj = that.getScore();
         let yword = scroeObj.yword.word;
         let pword = scroeObj.pword;
+        let canvasHeight = that.data.height;
         //画渐变
         var ctx = wx.createCanvasContext('thumbphoto');
-        const grd = ctx.createLinearGradient(0, 0, 0, 800)
+        const grd = ctx.createLinearGradient(0, 0, 0, canvasHeight)
         grd.addColorStop(0, '#00b0e0')
         grd.addColorStop(1, '#fff')
         ctx.setFillStyle(grd)
-        ctx.fillRect(0, 0,screenW, 800);
+        ctx.fillRect(0, 0,screenW, canvasHeight);
         //画标题
         let titlew = screenW-160;
         let titleH = 46/(224/titlew);
         ctx.drawImage("../../images/title322446.png",80, 20, titlew, titleH)
 
         //画头像
-        var imgObj = that.data.imgObj;
+        var imgObj = getApp().globalData.imgObj;
         let imgW = imgObj.width; //实际宽
         let imgH = imgObj.height; //实际高
         let canvasH = 240;
@@ -257,6 +202,13 @@ Page({
         let rLeft = (((screenW -30)*rate-imgW)/2+location.left)/rate+15;
         let rW = location.width/rate;
         let rH= location.height/rate;
+        
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';//填充样式演示
+
+        ctx.fillRect(rLeft, rTop, rW, rH);//绘制矩形
+
+
+        
         var borderWidth = 14;
         var lW = 3;
         ctx.setStrokeStyle("#fff")
@@ -285,24 +237,45 @@ Page({
         let scoreY = faceTop+faceDHeight+30;
         ctx.fillText("颜值："+scroeObj.yz.toFixed(2)+"分，财运："+scroeObj.cy.toFixed(2)+"分",screenW/2, scoreY);
 
+        
+        let faceRes = getApp().globalData.faceRes;
+        let faceObj = {
+          age:faceRes.age,
+          sex:faceRes.gender.type==="female"?"女":"男",
+          mile:miletype[faceRes.expression.type].title,
+          facetype:facetype[faceRes.face_shape.type].title,
+          glasses:glasses[faceRes.glasses.type].title,
+        }
+        let fec = `脸型特征：${faceObj.sex}，${faceObj.age}岁，${faceObj.facetype}，${faceObj.glasses}，${faceObj.mile}。`
+        ctx.font="12px Georgia";
+        ctx.fillStyle = '#333';
+        ctx.textAlign = 'center';
+        ctx.fillText(fec,screenW/2,scoreY+25);
+        scoreY = scoreY + 25;
+
+
+        ctx.fillStyle = '#fff';
         //财运分析
         var retHeight = 300;
         ctx.fillRect(15, scoreY+15, screenW-30, retHeight)
         ctx.setFillStyle('#000');
+        ctx.textAlign = 'center';
+        ctx.font="18px Georgia";
         ctx.fillText("财运分析",screenW/2, scoreY+45);
 
         ctx.setStrokeStyle("#00b0e0")
         ctx.setLineWidth(1);
         ctx.beginPath();
         ctx.moveTo(15,scoreY+60);
-        ctx.lineTo(345-15,scoreY+60);
+        ctx.lineTo(screenW-15,scoreY+60);
         ctx.stroke();
 
-        ctx.font="13px Georgia";
+        ctx.font="16px Georgia";
         ctx.textAlign = 'left';
         let lineHeight=26;
         let i = 1;
         ctx.fillText(yword[0],30, scoreY+60+lineHeight*i++);
+        ctx.font="16px Georgia";
         ctx.fillText(yword[1],30, scoreY+60+lineHeight*i++);
         ctx.fillText("推荐您投资陆金所理财产品：",30, scoreY+60+lineHeight*i++);
         
