@@ -2,6 +2,9 @@ const  app = getApp();
 Page({
   data: {
     imgObj:null,
+    userInfo:null,
+    openid:null,
+    isReady:false,
   },
   
 
@@ -12,8 +15,13 @@ Page({
         mask: true
     });
     wx.uploadFile({
-      url: 'https://contest.lujs.cn/h5-mission/wx/upload', 
+      url: 'https://contest.lujs.cn/h5-mission/wx/upload?a=3', 
       filePath: self.data.imgObj.path,
+      formData:{
+        openid:self.data.openid,
+        nickname:self.data.userInfo.nickName,
+        url:self.data.userInfo.avatarUrl
+      },
       name: 'thumbnail',
       success: function(res){
         wx.hideLoading();
@@ -39,6 +47,9 @@ Page({
           
         } 
       },
+      fail:function(){
+        wx.showToast({title:"计算失败，请检查网络",icon:"none"});
+      },
       complete:function(){
         wx.hideLoading();
       }
@@ -52,6 +63,11 @@ Page({
   resetMyface:function(){
     this.setData({
       imgObj:null
+    })
+  },
+  gotosort:function(){
+    wx.navigateTo({
+      url: '/pages/sort/sort'
     })
   },
   choseMyface: function(event) {
@@ -76,9 +92,60 @@ Page({
       }
     })
   },
-  uploadPhoto:function(event){
-    var self = this;
 
+  bindGetUserInfo:function(e){
+    var that = this;
+    if (e.detail.userInfo) {
+      that.setData({
+        userInfo:e.detail.userInfo
+      },function(){
+        that.doLogin();
+      })
+    }
+  },
+  onLoad:function(){
+    var that = this;
+    wx.getSetting({
+      success: res => {
+        if (res.authSetting['scope.userInfo']) {
+          wx.getUserInfo({
+            success: function(res) {
+              that.setData({
+                userInfo:res.userInfo,
+                isReady:true
+              },function(){
+                that.doLogin();
+              })
+            }
+          })
+        }else{
+          that.setData({
+            isReady:true
+          })
+        }
+      }
+    })
+  },
+  doLogin:function(){
+    var that = this;
+    wx.login({
+      success: function(res) {
+        if (res.code) {
+          //发起网络请求
+          wx.request({
+            url: 'https://contest.lujs.cn/h5-mission/wx/getopenid?code='+res.code,
+            success:function(data){
+              app.globalData.openid = data.data.openid;
+
+              that.setData({
+                openid:data.data.openid
+              })
+            }
+          })
+        } else {
+        }
+      }
+    });
   }
 });
 

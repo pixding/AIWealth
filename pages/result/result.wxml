@@ -5,6 +5,6 @@
     
   <view class="result-btn">
     <button class="saveimg" bindtap="save">保存并分享</button>
-    <button class="reglufax" bindtap="register">注册领红包</button>
+    <button class="reglufax" bindtap="gotosort">查看排行榜</button>
   </view>
 </view>

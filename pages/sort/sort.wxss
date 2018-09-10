@@ -1,0 +1,77 @@
+.ph-logo{
+  text-align: center;
+  margin: 10px 0;
+}
+.sort-back-area{
+  text-align: right;
+  font-size: 14px;
+  padding:1px 15px 15px 0;
+
+  color:#fff;
+}
+.sort-back-area a{
+  border-bottom:1px solid #fff;
+  padding:3px;
+}
+.ph-logo image{
+  display: inline-block;
+  width:168px;
+  height:34.5px;
+}
+
+.ph-list{
+  background:#fff;
+  border-bottom:1px dashed #999;
+}
+.ph-item{
+  display: flex;
+  height:48px; 
+  padding:10px 0;
+  color:#2050a0;
+  
+}
+.ph-item-true{
+  background: #efefef;
+}
+.ph-list:last-child{
+  border-bottom:none;
+}
+.ph-item-num{
+  text-align: center;
+  line-height: 48px;
+  width:50px;
+  display: block;
+}
+
+.ph-item-header{
+  width:48px;
+  height:48px;
+  border-radius: 100%;
+}
+.ph-item-name{
+  line-height: 48px;
+  padding-left:10px;
+  font-size:14px;
+  display: block;
+  overflow: hidden;
+  flex:2;
+}
+.ph-item-score{
+  line-height: 24px;
+  width:110px; 
+  text-align: right;
+  color:#f60;
+  padding-right:10px;
+}
+.ph-item-score .cyscore{
+  padding-top:8px;
+}
+.ph-item-score .yzscore{
+  font-size: 12px;
+  line-height: 16px;
+  color:#666;
+}
+.ph-score-unit{
+  font-size:12px;
+  color:#666;
+}

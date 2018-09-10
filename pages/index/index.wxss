@@ -3,14 +3,63 @@
   line-height: 30px;
   font-size: 16px;
   text-align: center;
-  margin-top:30px;
+  margin-top:20px;
+  position: relative;
+}
+.phb-btn{
+  position: absolute;
+  top:26px;
+  line-height: 40px;
+  font-size: 16px;
+  color:#FFF;
+  font-weight: bold;
+  right:0px;
+  top:-30px;
+  text-align: right;
+  padding: 0 15px 0 40px;
+  background: #A10000;
+  box-shadow: 3px 3px 3px #333;
+  background: linear-gradient(to right,
+  rgb(150, 0, 10) 0%,rgb(228, 0, 0) 80%,rgb(252, 81, 90) 90%,rgb(228, 0, 0) 100%);
+  border-radius: 100px 0 0 100px;
 }
 
 .btn-area{
   text-align: center;
   overflow: hidden;
 }
+.btn-sq{
+  text-align: center;
+}
+.sq-btn{
+  line-height: 40px;
+  height: 40px;
+  width:240px;
+  display: inline-block;
+  background: #1aad19;
+  color:#fff;
+  font-size:15px;
+  border-radius: 6px;
+}
+.sq-btn-tip{
+  margin-top:10px;
+  font-size:13px;
+  color:#666;
+
+}
 .cal-btn{
+  border:1px solid #fff;
+  border-radius: 6px;
+  color:#fff;
+  display: inline-block;
+  height: 40px;
+  line-height: 40px;
+  background: #FD8238;
+  font-size:15px;
+  min-width: 240px;
+}
+
+.sort-btn{
   border:1px solid #fff;
   border-radius: 6px;
   color:#fff;
@@ -25,7 +74,26 @@
 .photo-area{
   text-align: center;
 }
+.ph-logo{
+  text-align: center;
+  margin: 10px 0;
+}
+.ph-logo image{
+  display: inline-block;
+  width:168px;
+  height:34.5px;
+}
+.index-sort-area{
+  text-align: right;
+  font-size: 14px;
+  padding:1px 50px 1px 0;
 
+  color:#fff;
+}
+.index-sort-area a{
+  border-bottom:1px solid #fff;
+  padding:3px;
+}
 .photo-content{
   margin:0 auto;
   min-width: 240px;

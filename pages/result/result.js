@@ -85,7 +85,7 @@ Page({
   onShareAppMessage:function(){
     var that = this;
     return {
-      title:"预测我"+getApp().globalData.faceRes.age+"岁,颜值"+that.getScore().yz.toFixed(2)+"分，我的财运"+that.getScore().cy.toFixed(2)+"分，你来试试？",
+      title:"预测我"+getApp().globalData.faceRes.age+"岁，颜值"+that.getScore().yz.toFixed(0)+"分，财运"+that.getScore().cy.toFixed(0)+"分，你来试试？",
       path:"pages/index/index"
     }
   },
@@ -106,14 +106,9 @@ Page({
       }
     });
   },
-  register:function(){
-    wx.showModal({
-      content: '演示小程序，请打开www.lu.com注册',
-      showCancel: false,
-      confirmText: '确定',
-      confirmColor: '#72B9C3',
-      success: function (res) {
-      }
+  gotosort:function(){
+    wx.navigateTo({
+      url: '/pages/sort/sort'
     })
   },
   save:function(){

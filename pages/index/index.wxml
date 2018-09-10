@@ -1,10 +1,12 @@
 <view class="section">
-  <view class="tip-area">
-    <view>面相看财运</view>
-    <view>什么面相的人财运好</view>
-    <view>小 “I” 帮你测算分析</view>
+   <view class="ph-logo">
+    <image src="../../images/title322446.png"></image>
+    
   </view>
-
+  <view class="index-sort-area">
+    
+    <a bindtap="gotosort">排行榜 ></a>
+  </view>
 
   <view class="photo-area" >
     <view class="photo-content {{imgObj?'noshow':''}}">
@@ -15,13 +17,19 @@
 
     </view>
   </view>
-
-  <view class="btn-area">
-    <a wx:if="{{imgObj}}"  class="cal-btn" bindtap="uploadMyface">测算财运</a>
-    <a wx:else  class="cal-btn" bindtap="choseMyface">选择照片/拍照</a>
+  <view wx:if="{{isReady}}">
+    <view wx:if="{{userInfo}}">
+      <view  class="btn-area">
+        <a wx:if="{{imgObj}}"  class="cal-btn" bindtap="uploadMyface">测算财运</a>
+        <a wx:else  class="cal-btn" bindtap="choseMyface">选择照片/拍照</a>
+      </view>
+    </view>
+    <view wx:else class="btn-sq">
+      <button class="sq-btn" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">授权登录</button>
+      <view class="sq-btn-tip">
+        <view>请点击"授权登录"按钮</view>
+        <view>打开头像、昵称等信息的授权</view>
+      </view>
+    </view>
   </view>
-
-  
-
-
 </view>

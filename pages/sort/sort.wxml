@@ -1,0 +1,29 @@
+<view class="section">
+  <view class="ph-logo">
+    
+    <image src="../../images/title322446.png"></image>
+  </view>
+  <view class="sort-back-area">
+    <a class="gotoindex" bindtap="gotoindex">我也要加入>></a>
+  </view>
+  <view wx:key="openid"  class="ph-list"  wx:for="{{yzarray}}" >
+    <view class="ph-item ph-item-{{item.isme}}">
+      <span class="ph-item-num">{{index+1}}</span>
+      <image class="ph-item-header" src="{{item.url}}"></image>
+      <span class="ph-item-name">
+        {{item.name}}
+      </span>
+      <span class="ph-item-score">
+        <view class="cyscore">
+           财:{{item.cyscore}}
+        </view>
+        <view class="yzscore">
+           颜:{{item.yzscore}}
+        </view>
+      </span>
+    </view>
+  </view>
+
+  
+
+</view>
