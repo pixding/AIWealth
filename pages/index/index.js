@@ -136,7 +136,6 @@ Page({
             url: 'https://contest.lujs.cn/h5-mission/wx/getopenid?code='+res.code,
             success:function(data){
               app.globalData.openid = data.data.openid;
-
               that.setData({
                 openid:data.data.openid
               })

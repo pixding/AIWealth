@@ -1,6 +1,7 @@
 Page({
   data:{
-    yzarray:[]
+    yzarray:[],
+    total:null,
   },
   onShareAppMessage:function(){
     var that = this;
@@ -17,11 +18,14 @@ Page({
   onLoad:function(){
     var that = this;
     wx.request({
-      url: 'https://contest.lujs.cn/h5-mission/wx/getdb?openid='+getApp().globalData.openid,
+      url: 'https://contest.lujs.cn/h5-mission/wx/getdb?version=2&openid='+getApp().globalData.openid,
       success:function(data){
-        console.log(data);
+        let rs = data.data;
+        let arr = rs.data;
+        let count = rs.count;
         that.setData({
-          yzarray:data.data
+          yzarray:arr,
+          total:count ||200
         })
       }
     })

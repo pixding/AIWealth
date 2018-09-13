@@ -9,6 +9,10 @@
 
   color:#fff;
 }
+.sort-back-area span{
+  color:#333;
+  margin-right:15px;
+}
 .sort-back-area a{
   border-bottom:1px solid #fff;
   padding:3px;

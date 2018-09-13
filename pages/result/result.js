@@ -1,57 +1,21 @@
 let miletype = {
-  "none":{title:"一脸严肃",s:4},
-  "smile":{title:"微微一笑",s:8},
-  "laugh":{title:"满面笑容",s:4}
+  "none":{title:"一脸严肃"},
+  "smile":{title:"微微一笑"},
+  "laugh":{title:"满面笑容"}
 }
 let facetype = {
-  "square":{title:"国子脸",s:4},
-  "triangle":{title:"瓜子脸",s:10},
-  "oval":{title:"椭圆脸",s:8},
-  "heart":{title:"心型脸",s:10},
-  "round":{title:"圆脸",s:2}
+  "square":{title:"国子脸"},
+  "triangle":{title:"瓜子脸"},
+  "oval":{title:"椭圆脸"},
+  "heart":{title:"心型脸"},
+  "round":{title:"圆脸"}
 }
 let glasses = {
-  "none":{title:"未配带眼镜",s:4},
-  "common":{title:"配带普通眼镜",s:8},
-  "sun":{title:"配带墨镜",s:12},
+  "none":{title:"未配带眼镜"},
+  "common":{title:"配带普通眼镜"},
+  "sun":{title:"配带墨镜"},
 }
 
-let yunsi = [
-  {
-    word:[
-      "您顺水顺风","财运渐入佳境，财富稳稳上扬。"
-    ]
-  },
-  {
-    word:[
-      "您时来运转","财力有进有退，财运有所改善。"
-    ]
-  },
-  {
-    word:[
-      "您财运亨通","全年事业带财，身价水涨船高。"
-    ]
-  },
-  {
-    word:[
-      "您鸿运当头","眼观四方、耳听八面，看旺全年。"
-    ]
-  }
-];
-let rcmdProd = [
-  {
-    name:"慧盈-安e+",
-    desc:["期望年化利率8.4%","项目安全等级5星"]
-  },
-  {
-    name:"安增益4号T+31",
-    desc:["七日年化收益率4.53%","每隔31天免费赎回"]
-  },
-  {
-    name:"金色人生",
-    desc:["七日年化收益率3.87%","灵活赎回，1元起投"]
-  }
-]
 
 Page({
   data: {
@@ -60,32 +24,19 @@ Page({
   },
   getScore:function(){
     let faceRes = getApp().globalData.faceRes;
-    var yzScore = faceRes.beauty/100*40+60;
-    let baseScore = miletype[faceRes.expression.type].s+facetype[faceRes.face_shape.type].s+glasses[faceRes.glasses.type].s;
-    var cyScore = baseScore+yzScore+(10-Math.abs(faceRes.age-35)/3);
-    let index = 0;
-    if(cyScore>80){
-      index = 1;
-    }
-    if(cyScore>90){
-      index=2;
-    }
-    if(cyScore>105){
-      index = 3;
-    }
-    let pindex = Math.ceil(cyScore)%3;
-
+    let cyFea = faceRes.cyFea;
+    console.log(cyFea,'......');
     return{
-      yz:yzScore,
-      cy:cyScore,
-      yword:yunsi[index],
-      pword:rcmdProd[pindex]
+      yz:cyFea.yz.toFixed(2),
+      cy:cyFea.cy.toFixed(2),
+      yword:cyFea.yword,
+      pword:cyFea.pword
     }
   },
   onShareAppMessage:function(){
     var that = this;
     return {
-      title:"预测我"+getApp().globalData.faceRes.age+"岁，颜值"+that.getScore().yz.toFixed(0)+"分，财运"+that.getScore().cy.toFixed(0)+"分，你来试试？",
+      title:"预测我"+getApp().globalData.faceRes.age+"岁，颜值"+that.getScore().yz+"分，财运"+that.getScore().cy+"分，你来试试？",
       path:"pages/index/index"
     }
   },
@@ -230,7 +181,7 @@ Page({
         ctx.fillStyle = '#fff';
         ctx.textAlign = 'center';
         let scoreY = faceTop+faceDHeight+30;
-        ctx.fillText("颜值："+scroeObj.yz.toFixed(2)+"分，财运："+scroeObj.cy.toFixed(2)+"分",screenW/2, scoreY);
+        ctx.fillText("颜值："+scroeObj.yz+"分，财运："+scroeObj.cy+"分",screenW/2, scoreY);
 
         
         let faceRes = getApp().globalData.faceRes;
@@ -288,7 +239,7 @@ Page({
 
         ctx.font="16px Georgia";
         ctx.fillStyle = '#f60';
-        ctx.fillText("注册就送1888投资券",30, scoreY+15+300-25);
+        ctx.fillText(faceRes.cyFea.registerword,30, scoreY+15+300-25);
         ctx.draw();
       }
     });

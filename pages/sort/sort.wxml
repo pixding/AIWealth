@@ -4,6 +4,7 @@
     <image src="../../images/title322446.png"></image>
   </view>
   <view class="sort-back-area">
+    <span wx:if="{{total}}">参与人数：{{total}}</span>
     <a class="gotoindex" bindtap="gotoindex">我也要加入>></a>
   </view>
   <view wx:key="openid"  class="ph-list"  wx:for="{{yzarray}}" >
